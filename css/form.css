@@ -1,0 +1,50 @@
+body{
+    background-color: #8fa7b5;
+    background-size: cover;
+}
+
+.formfuncionario{
+    margin: auto;
+    padding: 20px;
+    background-color: #ffffffd8;
+    width: 380px;
+    height: auto;
+    border-radius: 20px;
+}
+
+.title{
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #000000;
+    font-size: 30px; 
+    margin-top: 10px;   
+}
+
+.dados{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 10px;
+    font-size: 18px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+input{
+    height: 15px;
+    width: 365px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+button{
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    background-color: #4c94b9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}

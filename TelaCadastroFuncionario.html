@@ -41,5 +41,154 @@
         <script>
             new window.VLibras.Widget('https://vlibras.gov.br/app');
         </script>
+
+        <!-- === Leitor Falável Interativo === -->
+<style>
+  #voiceReaderToggle {
+    position: fixed;
+    bottom: 90px;
+    right: 16px;
+    background: #0078d7;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 18px;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 9999;
+  }
+
+  #voiceReaderToggle.active {
+    background: #00a86b;
+  }
+
+  .reading-highlight {
+    background-color: rgba(255, 255, 0, 0.3);
+    transition: background-color 0.3s ease;
+  }
+
+  #readAllButton {
+    position: fixed;
+    bottom: 150px;
+    right: 16px;
+    background: #0078d7;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 18px;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 9999;
+  }
+</style>
+
+<button id="voiceReaderToggle" aria-pressed="false" title="Ativar leitor falado">🗣️ Leitor</button>
+<button id="readAllButton" title="Ler toda a página">📖 Ler Tudo</button>
+
+<script>
+(function() {
+  let active = false;
+  let synth = window.speechSynthesis;
+  let currentUtterance = null;
+  const btn = document.getElementById('voiceReaderToggle');
+  const readAllBtn = document.getElementById('readAllButton');
+
+  if (!('speechSynthesis' in window)) {
+    btn.textContent = '🔇 Sem suporte';
+    btn.disabled = true;
+    readAllBtn.disabled = true;
+    alert('Seu navegador não suporta leitura por voz (SpeechSynthesis).');
+    return;
+  }
+
+  function getAllTextNodes() {
+    const texts = [];
+    const walker = document.createTreeWalker(
+      document.body,
+      NodeFilter.SHOW_TEXT,
+      {
+        acceptNode: function(node) {
+          return node.parentNode.tagName !== 'SCRIPT' && 
+                 node.parentNode.tagName !== 'STYLE' && 
+                 node.textContent.trim() !== '' 
+                 ? NodeFilter.FILTER_ACCEPT 
+                 : NodeFilter.FILTER_REJECT;
+        }
+      }
+    );
+
+    let node;
+    while (node = walker.nextNode()) {
+      texts.push(node);
+    }
+    return texts;
+  }
+
+  function readText(text, element) {
+    return new Promise((resolve) => {
+      if (synth.speaking) synth.cancel();
+      
+      if (element) element.classList.add('reading-highlight');
+      
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'pt-BR';
+      utter.rate = 1.0;
+      
+      utter.onend = () => {
+        if (element) element.classList.remove('reading-highlight');
+        resolve();
+      };
+
+      synth.speak(utter);
+      currentUtterance = utter;
+    });
+  }
+
+  async function readAllTexts() {
+    const textNodes = getAllTextNodes();
+    
+    for (let node of textNodes) {
+      if (!active) break;
+      const text = node.textContent.trim();
+      if (text) {
+        await readText(text, node.parentElement);
+      }
+    }
+  }
+
+  btn.addEventListener('click', () => {
+    active = !active;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-pressed', active);
+    btn.textContent = active ? '🟢 Leitor Ativo' : '🗣️ Leitor';
+    if (!active && synth.speaking) synth.cancel();
+  });
+
+  readAllBtn.addEventListener('click', () => {
+    if (!active) {
+      active = true;
+      btn.classList.add('active');
+      btn.setAttribute('aria-pressed', true);
+      btn.textContent = '🟢 Leitor Ativo';
+    }
+    readAllTexts();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!active || e.target.id === 'voiceReaderToggle' || e.target.id === 'readAllButton') return;
+
+    if (synth.speaking) synth.cancel();
+    document.querySelectorAll('.reading-highlight').forEach(el => el.classList.remove('reading-highlight'));
+
+    const text = e.target.innerText || e.target.textContent;
+    if (text && text.trim().length > 0) {
+      readText(text.trim(), e.target);
+    }
+  });
+})();
+</script>
+
 </body>
 </html>

@@ -11,20 +11,27 @@
         <img  class="logo" src="./img/logo.png" alt="Logo da empresa">
     </div>
     <div>
-         <form class="formfuncionario"  action="formulariofuncionario">
+         <form class="formfuncionario"  action="php/cadastroFuncionario.php" method="post">
             <h1 class="title">Cadastre-se</h1>
-            <label class="dados" for="nome">Nome completo:</label>
-            <input type="text" id="nome">
-            <label class="dados" for="rg">RG:</label>
-            <input type="number" id="rg">
-            <label class="dados" for="cpf">CPF:</label>
-            <input type="number" id="cpf">
-            <label class="dados" for="numeroregistro">Número de Registro:</label>
-            <input type="number" id="numeroregistro">
-            <label class="dados" for="cargo">Cargo:</label>
-            <input type="text" id="cargo">
-            <label class="dados" for="senha">Criar senha:</label>
-            <input type="password" id="senha">
+
+            <label class="dados" for="nomee" id="nomel">Nome completo:</label>
+            <input type="text" name="nome" id="nome" placeholder="Digite seu nome...">
+
+            <label class="dados" for="rgg" id="rgl">RG:</label>
+            <input type="text" name="rg" id="rg" placeholder="Digite somente números...">
+
+            <label class="dados" for="cpff" id="cpfl">CPF:</label>
+            <input type="text" name="cpf" id="cpf" placeholder="Digite somente números...">
+
+            <label class="dados" for="numeroregistroo" id="numeroregistrol">Número de Registro:</label>
+            <input type="text" name="numero_registro" id="numero_registro">
+
+            <label class="dados" for="cargoo" id="cargol">Cargo:</label>
+            <input type="text" name="cargo" id="cargo">
+
+            <label class="dados" for="senhaa" id="senhal">Criar senha:</label>
+            <input type="password" name="senha" id="senha" placeholder="Letras (A,a) - Números (1,5,9) - Símbolos (@#$)">
+
             <input class="botão" type="submit" value="Cadastrar">
          </form>
     </div>

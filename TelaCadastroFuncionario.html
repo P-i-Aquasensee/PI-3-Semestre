@@ -18,10 +18,10 @@
             <input type="text" name="nome" id="nome" placeholder="Digite seu nome...">
 
             <label class="dados" for="rgg" id="rgl">RG:</label>
-            <input type="text" name="rg" id="rg" placeholder="Digite somente números...">
+            <input type="text" name="rg" id="rg" placeholder="Digite somente números..." maxlength="10">
 
             <label class="dados" for="cpff" id="cpfl">CPF:</label>
-            <input type="text" name="cpf" id="cpf" placeholder="Digite somente números...">
+            <input type="text" name="cpf" id="cpf" placeholder="000.000.000-00" maxlength="14">
 
             <label class="dados" for="numeroregistroo" id="numeroregistrol">Número de Registro:</label>
             <input type="text" name="numero_registro" id="numero_registro">
@@ -94,7 +94,22 @@
 <button id="voiceReaderToggle" aria-pressed="false" title="Ativar leitor falado">🗣️ Leitor</button>
 <button id="readAllButton" title="Ler toda a página">📖 Ler Tudo</button>
 
+<script src="https://unpkg.com/imask"></script>
 <script>
+    // Máscara para o CPF
+  const cpfInput = document.getElementById('cpf');
+  IMask(cpfInput, {
+    mask: '000.000.000-00'
+  });
+
+  // Restringe RG a apenas números
+  const rgInput = document.getElementById('rg');
+  rgInput.addEventListener('input', function () {
+    this.value = this.value.replace(/\D/g, ''); // Remove tudo que não for dígito
+   
+  });
+
+  
 (function() {
   let active = false;
   let synth = window.speechSynthesis;

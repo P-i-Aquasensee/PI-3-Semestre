@@ -6,7 +6,7 @@ body{
 }
 
 .formfuncionario{
-    background-image: url(/img/fundo-form.png);
+    background-image:url(../img/fundo-form.png) ;
     opacity: 0.87;
     align-items: center;
     margin: auto;

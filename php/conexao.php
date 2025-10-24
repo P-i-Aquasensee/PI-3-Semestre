@@ -3,7 +3,7 @@ class db {
     private $hostname = 'localhost';
     private $bancodedados = 'aquasensedb';
     private $usuario = 'root';
-    private $senha = '';
+    private $senha = 'root';
     private $mysqli = null;
 
     public function conecta_mysql() {
